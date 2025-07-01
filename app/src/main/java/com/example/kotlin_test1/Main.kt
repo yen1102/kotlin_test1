@@ -75,7 +75,7 @@ fun MainScreen(navController: androidx.navigation.NavHostController) {
             )
         }
 
-        if (showDialog) {
+        if (showDialog) { //顯示視窗訊息
             AlertDialog(
                 onDismissRequest = { showDialog = false },
                 confirmButton = {},

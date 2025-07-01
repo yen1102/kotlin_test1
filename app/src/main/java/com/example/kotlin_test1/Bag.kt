@@ -75,12 +75,12 @@ fun BagScreen(navController: NavHostController) {
         // 回首頁
         IconButton(
             onClick = { navController.navigate("main") },
-            modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+            modifier = Modifier.padding(top = 25.dp, bottom = 4.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_home),
                 contentDescription = "回首頁",
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(40.dp)
             )
         }
 
