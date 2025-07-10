@@ -40,9 +40,17 @@ android {
 }
 
 dependencies {
+    implementation("androidx.navigation:navigation-compose:2.9.0")
+    implementation("androidx.compose.material3:material3:1.2.1")
+    implementation("com.google.android.gms:play-services-maps:19.2.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation("com.google.maps.android:maps-compose:6.6.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.35.0-alpha")
+    implementation("io.coil-kt:coil-compose:2.7.0")
 
     implementation("androidx.navigation:navigation-compose:2.9.0")
     implementation("androidx.compose.material3:material3:1.2.1")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

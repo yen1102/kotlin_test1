@@ -1,35 +1,58 @@
 package com.example.kotlin_test1
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.runtime.*
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.google.android.gms.maps.model.LatLng
 
+data class Spots(
+    val spotId: String,
+    val spotName: String,
+    val spotPhoto: String,
+    val position: LatLng,
+    val isUnlocked: Boolean
+)
+//收藏冊
 @Composable
 fun FavoritesScreen(navController: NavHostController) {
-    var pageIndex by remember { mutableStateOf(0) }//初始值設為0
-
-    var pageData = listOf(
-        listOf("地標A", "地標B", "地標C", "地標D"),
-        listOf("地標E", "地標F", "地標G", "地標H"),
-        listOf("地標I", "地標J", "地標K", "地標L")
-    )
-
-    val totalPages = pageData.size
-
-    val buttonColors = ButtonDefaults.buttonColors(//按鈕顏色
+    val buttonColors = ButtonDefaults.buttonColors(
         containerColor = Color(0xFFbc8f8f),
         contentColor = Color.White
     )
+    //當前頁面索引
+    var pageIndex by remember { mutableStateOf(0) }
+
+    var selectedLandmark by remember { mutableStateOf<Spots?>(null) }
+    var showLockedDialog by remember { mutableStateOf(false) }
+
+    val pageData = listOf(
+        listOf(
+            Spots("1", "地標A", "", LatLng(0.0, 0.0), false),
+            Spots("2", "寰宇之書", "", LatLng(0.0, 0.0), true),
+            Spots("3", "地標C", "", LatLng(0.0, 0.0), false),
+            Spots("4", "地標D", "", LatLng(0.0, 0.0), false)
+        ),
+        listOf(
+            Spots("5", "地標E", "", LatLng(0.0, 0.0), false),
+            Spots("6", "地標F", "", LatLng(0.0, 0.0), false),
+            Spots("7", "地標G", "", LatLng(0.0, 0.0), false),
+            Spots("8", "地標H", "", LatLng(0.0, 0.0), false)
+        )
+    )
+
+    val totalPages = pageData.size
 
     Column(
         modifier = Modifier
@@ -37,7 +60,6 @@ fun FavoritesScreen(navController: NavHostController) {
             .background(Color(0xFFF3DCDC))
             .padding(horizontal = 16.dp)
     ) {
-        // 回首頁
         IconButton(
             onClick = { navController.navigate("main") },
             modifier = Modifier.padding(top = 25.dp, bottom = 4.dp)
@@ -51,7 +73,7 @@ fun FavoritesScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        Box( //灰底框
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
@@ -63,56 +85,63 @@ fun FavoritesScreen(navController: NavHostController) {
                     .fillMaxHeight(0.8f)
                     .background(Color(0xFFDADADA))
                     .padding(15.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)//控制垂直排列元素之間的間距
-            ){ // 2X2顯示
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
                 val items = pageData[pageIndex % pageData.size]
-                for(row in 0..1){
+                //每頁顯示2X2地標
+                for (row in 0..1) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ){
-                        for(col in 0..1){
-                            val index = row*2 + col
+                    ) {
+                        for (col in 0..1) {
+                            val index = row * 2 + col
+                            val landmark = items[index]
+
                             Box(
                                 modifier = Modifier
                                     .weight(1f)
                                     .aspectRatio(1f)
-                                    .background(Color.White),
+                                    .background(if (landmark.isUnlocked) Color.White else Color.LightGray)
+                                    .clickable {
+                                        if (landmark.isUnlocked) {
+                                            selectedLandmark = landmark
+                                        } else {
+                                            showLockedDialog = true
+                                        }
+                                    },
                                 contentAlignment = Alignment.Center
-                            ){
-                                Text(text = items[index])
+                            ) {
+                                Text(
+                                    text = landmark.spotName,
+                                    color = if (landmark.isUnlocked) Color.Black else Color.Gray
+                                )
                             }
                         }
                     }
                 }
-
             }
         }
-        //翻頁按鈕
+
+        //分頁按鈕
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
-        ){
+        ) {
             Button(
                 onClick = {
-                    if (pageIndex > 0) {
-                        pageIndex--
-                    }
+                    if (pageIndex > 0) pageIndex--
                 },
                 colors = buttonColors,
                 enabled = pageIndex > 0
             ) {
                 Text("<")
             }
-
-            // 下一頁
             Button(
                 onClick = {
-                    if (pageIndex < totalPages - 1) {
-                        pageIndex++
-                    }
+                    if (pageIndex < totalPages - 1) pageIndex++
                 },
                 colors = buttonColors,
                 enabled = pageIndex < totalPages - 1
@@ -121,4 +150,33 @@ fun FavoritesScreen(navController: NavHostController) {
             }
         }
     }
+
+    // 顯示解鎖的地標內容彈窗
+    selectedLandmark?.let { landmark ->
+        AlertDialog(
+            onDismissRequest = { selectedLandmark = null },
+            confirmButton = {
+                TextButton(onClick = { selectedLandmark = null }) {
+                    Text("關閉")
+                }
+            },
+            title = { Text(landmark.spotName) },
+            text = { Text("內容說明。") }
+        )
+    }
+
+    // 顯示地標未解鎖提示
+    if (showLockedDialog) {
+        AlertDialog(
+            onDismissRequest = { showLockedDialog = false },
+            confirmButton = {
+                TextButton(onClick = { showLockedDialog = false }) {
+                    Text("確定")
+                }
+            },
+            //title = { Text("尚未解鎖") },
+            text = { Text("此地標尚未解鎖，請先前往現場打卡！") }
+        )
+    }
 }
+

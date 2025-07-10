@@ -52,7 +52,7 @@ fun LoginScreen(navController: NavHostController) {
 
         // 註冊按鈕
         Button(
-            onClick = { /* TODO: 加入註冊邏輯 */ },
+            onClick = { /* 加入註冊邏輯 */ },
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
             modifier = Modifier
                 .width(200.dp)
