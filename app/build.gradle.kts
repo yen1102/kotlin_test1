@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.kotlin_test1"
+    namespace = "com.ntou01157.hunter"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.kotlin_test1"
+        applicationId = "com.ntou01157.hunter"
         minSdk = 27
         targetSdk = 36
         versionCode = 1

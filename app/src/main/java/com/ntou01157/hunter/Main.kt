@@ -1,6 +1,6 @@
-package com.example.kotlin_test1
+package com.ntou01157.hunter
 
-import com.example.kotlin_test1.SupplyStation
+import com.ntou01157.hunter.SupplyStation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -31,8 +31,8 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.maps.android.compose.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.example.kotlin_test1.Landmark
-import com.example.kotlin_test1.LandmarkMarker
+import com.ntou01157.hunter.Landmark
+import com.ntou01157.hunter.LandmarkMarker
 
 
 class Main : ComponentActivity() {

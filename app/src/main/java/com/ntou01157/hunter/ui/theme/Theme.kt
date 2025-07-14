@@ -1,4 +1,4 @@
-package com.example.kotlin_test1.ui.theme
+package com.ntou01157.hunter.ui.theme
 
 import android.app.Activity
 import android.os.Build

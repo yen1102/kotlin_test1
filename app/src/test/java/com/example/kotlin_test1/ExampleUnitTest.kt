@@ -1,4 +1,4 @@
-package com.example.kotlin_test1
+package com.ntou01157.hunter
 
 import org.junit.Test
 

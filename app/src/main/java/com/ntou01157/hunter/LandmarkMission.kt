@@ -1,4 +1,4 @@
-package com.example.kotlin_test1
+package com.ntou01157.hunter
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +15,7 @@ import com.google.maps.android.compose.Marker
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import androidx.navigation.NavHostController
 import com.google.maps.android.compose.MarkerState
-import com.example.kotlin_test1.R
+import com.ntou01157.hunter.R
 
 data class Landmark(
     val spotId: String,

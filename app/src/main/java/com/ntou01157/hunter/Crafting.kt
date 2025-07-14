@@ -1,4 +1,4 @@
-package com.example.kotlin_test1
+package com.ntou01157.hunter
 
 // 第三步：檢查玩家背包是否符合配方需求
 

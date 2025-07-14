@@ -1,4 +1,4 @@
-package com.example.kotlin_test1
+package com.ntou01157.hunter
 
 data class Recipe(
     val resultItemId: Int,
